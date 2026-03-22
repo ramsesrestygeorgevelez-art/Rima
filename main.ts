@@ -2,4 +2,6 @@
 
 import { RIMA } from "./namespace/org";
 
-// the onstart
+// the onstart and objs
+
+let camera = RIMA.createCamera({}, "original")

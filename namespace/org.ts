@@ -5,9 +5,9 @@ export namespace RIMA {
      * Camera functionality.
      * 
      * @param params - The parameters for the camera.
-     * @param type - The type of camera to create (e.g., 'perspective', 'orthographic').
+     * @param type - The type of camera to create (e.g., 'perspective', 'orthographic', 'original').
      */
-    export function createCamera(params: {}, type: string){
+    export function createCamera(params: {}, type: "perspective" | "orthographic" | "original"){
 
         if (type === 'perspective') {
             const { fov, aspect, near, far } = params as { fov: number; aspect: number; near: number; far: number };
@@ -16,6 +16,10 @@ export namespace RIMA {
         if (type === 'orthographic') {
             const { left, right, top, bottom, near, far } = params as { left: number; right: number; top: number; bottom: number; near: number; far: number };
             return new THREE.OrthographicCamera(left, right, top, bottom, near, far);
+        }
+        if (type === 'original'){
+
+            return new THREE.Camera()
         }
         throw new Error(`Unsupported camera type: ${type}`);
     }
@@ -58,4 +62,55 @@ export namespace RIMA {
         throw new Error(`Unsupported object type: ${type}`);
     }
 
+    /**
+     * Event handling functionality.
+     * 
+     * @param type - The type of event (e.g., 'onStart', 'onUpdate').
+     * @param data - The data associated with the event.
+     * @example
+     * const event = new RIMAEvent('onStart', { message: 'Game started!' });
+     * event.addEvent('onStart', (data) => {
+     *     console.log(data.message); // Output: Game started!
+     * });
+     */
+    export class RIMAEvent {
+        constructor(public type: string, public data: any) {}
+        addEvent(type: string, callback: (data: any) => void) {
+            // Implementation for adding event listeners
+
+            const eventsListeners: { [key: string]: ((data: any) => void)[] } = {};
+
+            if (!eventsListeners[type]) {
+                eventsListeners[type] = [];
+            }
+            eventsListeners[type].push(callback);
+
+            if (this.type === "onStart") {
+                callback(this.data);
+            }
+        }
+        addEffectListener(effect: typeof Effect, callback: (data: any) => void) {
+            // Implementation for adding effect listeners
+            
+            const effects: typeof Effect[] = [];
+
+            effects.push(effect);
+            
+            if (effects.includes(effect)) {
+                callback(effect);
+            }
+
+    }
+}
+    export class Effect {
+        constructor(public name: string) {}
+
+        startEffect() {
+            // the effect from three.js
+
+            const effect = new THREE.Points(new THREE.BufferGeometry(), new THREE.PointsMaterial({ color: 0xffffff }));
+            return effect;
+        }
+
+    }
 }

@@ -2,7 +2,14 @@
 
 import { RIMA } from "./namespace/org";
 
-// the onstart and objs
+// gui first
 
-let gui = new RIMA.RimaGUI("MyGui")
-gui.createButton("hu")
+let Onstart = new RIMA.RIMAEvent("onStart", {
+
+    Classes: {
+        test: new RIMA.RimaGUI("testgui")
+    }
+})
+Onstart.addEvent("onStart", (data) => {
+
+})

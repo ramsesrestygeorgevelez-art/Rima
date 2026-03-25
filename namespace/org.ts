@@ -241,6 +241,9 @@ export namespace RIMA {
         }
     }
 
+    export type AudioSrc = {
+        src: string
+    }
     /**
      * Effect class for creating visual effects.
      */
@@ -333,6 +336,8 @@ export namespace RIMA {
 
         /**
          * Creates a div element.
+         * 
+         @param css The CSS of the element.
          */
         createDiv(css?: Partial<CSSStyleDeclaration>): HTMLDivElement {
             const div = document.createElement('div');
@@ -373,6 +378,15 @@ export namespace RIMA {
             } else {
                 document.body.appendChild(elem);
             }
+        }
+    }
+    export class RimaAudio {
+        constructor(public name: string){
+
+        }
+        play(src: AudioSrc){
+            let audio = new Audio(src.src)
+            audio.play()
         }
     }
 }
